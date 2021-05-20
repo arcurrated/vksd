@@ -2,13 +2,23 @@ import sys
 from PyQt5 import QtWidgets
 from vksdApp import VKsdApp
 from loginApp import LoginApp
-from trigger_dialog import TriggerDialog
+from triggerDialog import TriggerDialog
 import vk_api
 import time
 
 TRIGGERS_FILENAME = 'triggers.txt'
 VK_LOGIN_DATA_FILENAME = 'vk_login_data.txt'
-vk_login_data = open(VK_LOGIN_DATA_FILENAME, 'r').read().split('\n')[0].split(':')
+
+try:
+	triggers = open(TRIGGERS_FILENAME, 'r').read()
+except:
+	triggers = ''
+
+try:
+	vk_login_data = open(VK_LOGIN_DATA_FILENAME, 'r').read().split('\n')[0].split(':')
+except:
+	vk_login_data = ['', '']
+
 vk_login, vk_password = vk_login_data
 
 def handle_captcha(captcha):
@@ -19,11 +29,6 @@ def handle_captcha(captcha):
 			
 		
 if __name__ == '__main__':
-	try:
-		triggers = open(TRIGGERS_FILENAME, 'r').read()
-	except:
-		triggers = ''
-	
 	vk = None
 	def log_in_vk():
 		login = login_window.vk_login.text()
